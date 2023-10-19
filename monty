@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+
+def push(stack, argument, current_line_number):
+    """Pushes an element to the stack.
+
+    Args:
+        stack: The stack.
+        argument: The element to push to the stack.
+        current_line_number: The current line number.
+    """
+    try:
+        element = int(argument)
+    except ValueError:
+        print(f"L{current_line_number}: usage: push integer")
+        exit(1)
+    stack.append(element)
+
+def pall(stack, current_line_number):
+    """Prints all the values on the stack, starting from the top of the stack.
+
+    Args:
+        stack: The stack.
+        current_line_number: The current line number.
+    """
+    if not stack:
+        return
+    for element in stack[::-1]:
+        print(element)
+
+def main():
+    stack = []  # Initialize an empty stack
+    current_line_number = 0
+
+    with open("bytecodes/00.m", "r") as file:
+        for line in file:
+            current_line_number += 1
+            instruction = line.strip().split()
+            if instruction[0] == "push":
+                push(stack, instruction[1], current_line_number)
+            elif instruction[0] == "pall":
+                pall(stack, current_line_number)
+
+if __name__ == "__main__":
+    main()
+
